@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="FooterSlideGradualnessView">
+        <attr name="icon"/>
+        <attr name="text"/>
+        <attr name="text_size"/>
+        <attr name="color"/>
+        <attr name="text_default_color"/>
+    </declare-styleable>
+
+    <attr name="icon" format="reference"/>
+    <attr name="text" format="string"/>
+    <attr name="text_size" format="dimension"/>
+    <attr name="color" format="color"/>
+    <attr name="text_default_color" format="color"/>
+
+</resources>

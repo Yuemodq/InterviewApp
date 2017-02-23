@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/activity_main"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xw="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 内容主体 -->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+
+    <!-- 底部导航按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_bg_footer_indicator"
+        android:layout_alignParentBottom="true">
+
+        <com.xw.interviewapp.ui.view.FooterSlideGradualnessView
+            android:id="@+id/fsgv_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            xw:icon="@mipmap/home"
+            xw:text_size="12sp"
+            xw:text="首页"/>
+
+        <com.xw.interviewapp.ui.view.FooterSlideGradualnessView
+            android:id="@+id/fsgv_map"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            xw:icon="@mipmap/map"
+            xw:text_size="12sp"
+            xw:text="地图"/>
+
+        <com.xw.interviewapp.ui.view.FooterSlideGradualnessView
+            android:id="@+id/fsgv_media"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            xw:icon="@mipmap/media"
+            xw:text_size="12sp"
+            xw:text="媒体"/>
+
+        <com.xw.interviewapp.ui.view.FooterSlideGradualnessView
+            android:id="@+id/fsgv_me"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="5dp"
+            xw:icon="@mipmap/me"
+            xw:text_size="12sp"
+            xw:text="我"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
