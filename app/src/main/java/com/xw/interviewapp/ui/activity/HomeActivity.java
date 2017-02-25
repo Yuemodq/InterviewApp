@@ -12,6 +12,7 @@ import com.xw.interviewapp.ui.fragment.HomeFragment;
 import com.xw.interviewapp.ui.fragment.MapFragment;
 import com.xw.interviewapp.ui.fragment.MeFragment;
 import com.xw.interviewapp.ui.fragment.MediaFragment;
+import com.xw.interviewapp.ui.view.FooterIndicatorGroup;
 import com.xw.interviewapp.ui.view.FooterSlideGradualnessView;
 
 import java.util.ArrayList;
@@ -22,13 +23,12 @@ import java.util.List;
  * 主活动类，承载4个功能分区碎片（fragment）
  */
 
-public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,
+        FooterIndicatorGroup.OnClickSwitchListener {
 
     private ViewPager vp_content;
 
-    private FooterSlideGradualnessView fsgv_home, fsgv_map, fsgv_media, fsgv_me;
-
-    private List<FooterSlideGradualnessView> mFooterSlideGradualnessViews = new ArrayList<>();
+    private FooterIndicatorGroup fig_footer_group;
 
     private List<Fragment> mFragments;
 
@@ -53,15 +53,9 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
 
     private void initViews() {
-        fsgv_home = (FooterSlideGradualnessView) findViewById(R.id.fsgv_home);
-        fsgv_map = (FooterSlideGradualnessView) findViewById(R.id.fsgv_map);
-        fsgv_media = (FooterSlideGradualnessView) findViewById(R.id.fsgv_media);
-        fsgv_me = (FooterSlideGradualnessView) findViewById(R.id.fsgv_me);
-        mFooterSlideGradualnessViews.add(fsgv_home);
-        mFooterSlideGradualnessViews.add(fsgv_map);
-        mFooterSlideGradualnessViews.add(fsgv_media);
-        mFooterSlideGradualnessViews.add(fsgv_me);
-        fsgv_home.setGradualAlpha(1.0f);
+        fig_footer_group = (FooterIndicatorGroup) findViewById(R.id.fig_footer_group);
+        fig_footer_group.setOnClickSwitchListener(this);
+        fig_footer_group.getFooterSlideGradualnessViews().get(0).setGradualAlpha(1.0f);
         vp_content = (ViewPager) findViewById(R.id.vp_content);
         vp_content.setAdapter(new HomePagerFragmentAdapter(getFragmentManager(), mFragments));
         vp_content.addOnPageChangeListener(this);
@@ -70,8 +64,8 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         if (positionOffset > 0) {
-            FooterSlideGradualnessView left = mFooterSlideGradualnessViews.get(position);
-            FooterSlideGradualnessView right = mFooterSlideGradualnessViews.get(position + 1);
+            FooterSlideGradualnessView left = fig_footer_group.getFooterSlideGradualnessViews().get(position);
+            FooterSlideGradualnessView right = fig_footer_group.getFooterSlideGradualnessViews().get(position + 1);
             left.setGradualAlpha(1 - positionOffset);
             right.setGradualAlpha(positionOffset);
         }
@@ -85,6 +79,11 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onClickSwitch(int position) {
+        vp_content.setCurrentItem(position);
     }
 }
 
