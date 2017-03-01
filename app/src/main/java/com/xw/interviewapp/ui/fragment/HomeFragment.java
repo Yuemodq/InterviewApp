@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import com.xw.interviewapp.R;
 
 /**
- * Created by Administrator on 2017-02-21.
  * 主页，流式布局效果展示、广告栏展示（自动轮播）
+ * <br/>
+ * 作者：XW <br/>
+ * 邮箱：xw_appdev@163.com <br/>
+ * 时间：2017-02-21
  */
 
 public class HomeFragment extends Fragment {

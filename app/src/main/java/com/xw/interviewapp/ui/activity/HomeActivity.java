@@ -19,8 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017-02-21.<br/>
  * 主活动类，承载4个功能分区碎片（fragment）
+ * <br/>
+ * 作者：XW <br/>
+ * 邮箱：xw_appdev@163.com <br/>
+ * 时间：2017-02-21
  */
 
 public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,

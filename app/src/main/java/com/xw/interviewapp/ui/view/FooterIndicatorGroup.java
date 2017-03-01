@@ -13,9 +13,10 @@ import java.util.List;
 
 /**
  * 底部导航按钮组合
- * 作者：XW
- * 邮箱：xw_appdev@163.com
- * 时间：2017-02-24 21:13
+ * <br/>
+ * 作者：XW <br/>
+ * 邮箱：xw_appdev@163.com <br/>
+ * 时间：2017-02-24
  */
 
 public class FooterIndicatorGroup extends LinearLayout implements View.OnClickListener {

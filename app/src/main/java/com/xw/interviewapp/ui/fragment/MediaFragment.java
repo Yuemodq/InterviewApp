@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import com.xw.interviewapp.R;
 
 /**
- * Created by Administrator on 2017-02-21.
  * 媒体展示：音乐播放、视频播放
+ * <br/>
+ * 作者：XW <br/>
+ * 邮箱：xw_appdev@163.com <br/>
+ * 时间：2017-02-21
  */
 
 public class MediaFragment extends Fragment {

@@ -8,6 +8,13 @@ import android.widget.Button;
 
 import com.xw.interviewapp.R;
 
+/**
+ * 欢迎页
+ * <br/>
+ * 作者：XW <br/>
+ * 邮箱：xw_appdev@163.com <br/>
+ * 时间：2017-02-21
+ */
 public class WelcomeActivity extends AppCompatActivity {
 
     private Button btn_start;

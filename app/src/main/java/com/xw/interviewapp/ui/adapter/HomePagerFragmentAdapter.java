@@ -7,8 +7,9 @@ import android.support.v13.app.FragmentPagerAdapter;
 import java.util.List;
 
 /**
- * 作者：XW
- * 邮箱：xw_appdev@163.com
+ * <br/>
+ * 作者：XW <br/>
+ * 邮箱：xw_appdev@163.com <br/>
  * 时间：2017-02-23 23:59
  */
 

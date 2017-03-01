@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import com.xw.interviewapp.R;
 
 /**
- * Created by Administrator on 2017-02-21.
  * 个人中心：缓存清理、图片上传（头像）、图片处理（圆形、方形、圆角等）
+ * <br/>
+ * 作者：XW <br/>
+ * 邮箱：xw_appdev@163.com <br/>
+ * 时间：2017-02-21
  */
 
 public class MeFragment extends Fragment {
