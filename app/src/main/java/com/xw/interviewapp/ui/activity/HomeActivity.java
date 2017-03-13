@@ -1,10 +1,10 @@
 package com.xw.interviewapp.ui.activity;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 
 import com.xw.interviewapp.R;
 import com.xw.interviewapp.ui.adapter.HomePagerFragmentAdapter;
@@ -34,6 +34,10 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
     private FooterIndicatorGroup fig_footer_group;
 
     private List<Fragment> mFragments;
+    
+    private int mLastPosition = 0;
+    
+    private int mCurrentPosition = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +64,7 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
         fig_footer_group.setOnClickSwitchListener(this);
         fig_footer_group.getFooterSlideGradualnessViews().get(0).setGradualAlpha(1.0f);
         vp_content = (ViewPager) findViewById(R.id.vp_content);
-        vp_content.setAdapter(new HomePagerFragmentAdapter(getFragmentManager(), mFragments));
+        vp_content.setAdapter(new HomePagerFragmentAdapter(getSupportFragmentManager(), mFragments));
         vp_content.addOnPageChangeListener(this);
     }
 
@@ -76,7 +80,10 @@ public class HomeActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     @Override
     public void onPageSelected(int position) {
-
+        mCurrentPosition = position;
+        fig_footer_group.getFooterSlideGradualnessViews().get(mLastPosition).setGradualAlpha(0);
+        fig_footer_group.getFooterSlideGradualnessViews().get(mCurrentPosition).setGradualAlpha(1);
+        mLastPosition = position;
     }
 
     @Override
