@@ -3,16 +3,17 @@
     android:id="@+id/activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false">
 
     <!-- 内容主体 -->
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_content"
+        android:layout_above="@+id/fig_footer_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </android.support.v4.view.ViewPager>
-
 
     <!-- 底部导航按钮 -->
     <com.xw.interviewapp.ui.view.FooterIndicatorGroup

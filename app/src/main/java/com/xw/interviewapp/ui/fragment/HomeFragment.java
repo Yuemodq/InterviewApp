@@ -1,7 +1,10 @@
 package com.xw.interviewapp.ui.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +27,20 @@ import java.util.List;
  */
 
 public class HomeFragment extends Fragment {
-
+    
+    private AppBarLayout app_bar;
+    private CollapsingToolbarLayout ctl;
     private Banner banner;
     private List<String> mTitles;
     private List<String> mUrls;
+    
+    private CollapsingToolbarLayoutState state;
+    
+    private enum CollapsingToolbarLayoutState {
+        EXPANDED,
+        COLLAPSED,
+        INTERNEDIATE
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +50,7 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_home1, container, false);
         initBannerData();
         initViews(view);
         return view;
@@ -82,6 +95,33 @@ public class HomeFragment extends Fragment {
     }
 
     private void initViews(View view) {
+        ctl = (CollapsingToolbarLayout) view.findViewById(R.id.ctl);
+//        ctl.setExpandedTitleColor(Color.parseColor("#00ffffff"));
+//        ctl.setCollapsedTitleTextColor(Color.parseColor("#ffffff"));
+        app_bar = (AppBarLayout) view.findViewById(R.id.app_bar);
+        app_bar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0) {
+                    if (state != CollapsingToolbarLayoutState.EXPANDED) {
+                        state = CollapsingToolbarLayoutState.EXPANDED;
+                        ctl.setTitle("");
+                    }
+                } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
+                    if (state != CollapsingToolbarLayoutState.COLLAPSED) {
+                        ctl.setTitle("首页");
+                        ctl.setCollapsedTitleTextColor(Color.WHITE);
+                        state = CollapsingToolbarLayoutState.COLLAPSED;
+                    }
+                } else {
+                    if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
+                        ctl.setTitle("");
+                        state = CollapsingToolbarLayoutState.INTERNEDIATE;
+                    }
+                }
+            }
+        });
+        
         banner = (Banner) view.findViewById(R.id.banner);
         banner.setBannerResources(mUrls)
                 .setBannerTitles(mTitles)
@@ -111,7 +151,6 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         banner.startAutoPlay();
-//        banner.stopAutoPlay();
     }
     
     

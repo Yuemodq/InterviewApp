@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.HomeActivity"/>
+        <activity android:name=".ui.activity.HomeActivity"
+            android:theme="@style/XAppTheme">
+        </activity>
     </application>
 
 </manifest>
