@@ -42,16 +42,36 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
 
-        <TextView
-            android:text="@string/text_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_margin="16dp"
+        app:borderWidth="0dp"
+        app:pressedTranslationZ="12dp"
+        app:elevation="5dp"
+        app:fabSize="mini"
+        android:layout_gravity="bottom|end"
+        android:backgroundTint="#88ff0000"
+        android:clickable="true"
+        app:rippleColor="#eeff0000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
 
-    </android.support.v4.widget.NestedScrollView>
+        <!--<TextView-->
+            <!--android:text="@string/text_content"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
+
+    <!--</android.support.v4.widget.NestedScrollView>-->
 
 </android.support.design.widget.CoordinatorLayout>

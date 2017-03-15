@@ -2,10 +2,15 @@ package com.xw.interviewapp.ui.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +18,13 @@ import android.view.ViewGroup;
 import com.xw.banner.Banner;
 import com.xw.banner.BannerConfig;
 import com.xw.interviewapp.R;
+import com.xw.interviewapp.bean.HomeRecyclerBean;
+import com.xw.interviewapp.http.Https;
 import com.xw.interviewapp.presenter.loader.GlideImageLoader;
+import com.xw.interviewapp.ui.adapter.HomeRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,11 +39,33 @@ public class HomeFragment extends Fragment {
     
     private AppBarLayout app_bar;
     private CollapsingToolbarLayout ctl;
+    
+    private RecyclerView rv;
+    
+    private HomeRecyclerAdapter mRecyclerAdapter;
+    
+    private List<HomeRecyclerBean> mRecyclerDatas;
+    
+    private FloatingActionButton fab;
+    
     private Banner banner;
     private List<String> mTitles;
     private List<String> mUrls;
     
     private CollapsingToolbarLayoutState state;
+    
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 200:
+                    mRecyclerDatas.clear();
+                    mRecyclerDatas.addAll((Collection<? extends HomeRecyclerBean>) msg.obj);
+                    mRecyclerAdapter.notifyDataSetChanged();
+                    break;
+            }
+        }
+    };
     
     private enum CollapsingToolbarLayoutState {
         EXPANDED,
@@ -51,12 +82,12 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home1, container, false);
-        initBannerData();
+        initDatas();
         initViews(view);
         return view;
     }
 
-    private void initBannerData() {
+    private void initDatas() {
         mTitles = new ArrayList<>();
         mUrls = new ArrayList<>();
 
@@ -91,6 +122,10 @@ public class HomeFragment extends Fragment {
                 "ec=1488571923462&di=1dd2ea8645b65d7bfe7ac56d6825bbd7&imgtype=0&src" +
                 "=http%3A%2F%2Fimgsrc.baidu.com%2Fforum%2Fw%253D580%2Fsign%3Dd863af" +
                 "b4cb95d143da76e42b43f18296%2F5ec678dde71190efec02d168cd1b9d16fffa6084.jpg");
+    
+        Https.instance().getBeanExecute("http://gank.io/api/data/%E7%A6%8F%E5%88%A9/10/1",
+                null, null, null, mHandler, null);
+        mRecyclerDatas = new ArrayList<>();
 
     }
 
@@ -121,7 +156,16 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        
+    
+        rv = (RecyclerView) view.findViewById(R.id.rv);
+//        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerAdapter = new HomeRecyclerAdapter(getActivity(), mRecyclerDatas);
+        rv.setAdapter(mRecyclerAdapter);
+    
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+    
         banner = (Banner) view.findViewById(R.id.banner);
         banner.setBannerResources(mUrls)
                 .setBannerTitles(mTitles)
