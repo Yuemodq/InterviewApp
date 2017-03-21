@@ -9,6 +9,7 @@
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -16,9 +17,7 @@
             android:id="@+id/ctl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="首页"
-            app:collapsedTitleGravity="center_horizontal"
-            app:expandedTitleGravity="left|bottom"
+            app:collapsedTitleGravity="center"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed|exitUntilCollapsed">
 
@@ -33,7 +32,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="56dp"
                 android:paddingTop="20dp"
                 app:layout_collapseMode="pin">
             </android.support.v7.widget.Toolbar>

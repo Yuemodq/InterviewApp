@@ -1,5 +1,6 @@
 package com.xw.interviewapp.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,20 +8,30 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.xw.banner.Banner;
 import com.xw.banner.BannerConfig;
+import com.xw.banner.listener.OnBannerListener;
 import com.xw.interviewapp.R;
 import com.xw.interviewapp.bean.HomeRecyclerBean;
 import com.xw.interviewapp.http.Https;
 import com.xw.interviewapp.presenter.loader.GlideImageLoader;
+import com.xw.interviewapp.ui.activity.ShowImageActivity;
 import com.xw.interviewapp.ui.adapter.HomeRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -39,6 +50,8 @@ public class HomeFragment extends Fragment {
     
     private AppBarLayout app_bar;
     private CollapsingToolbarLayout ctl;
+    private CoordinatorLayout cl;
+    private Toolbar tool_bar;
     
     private RecyclerView rv;
     
@@ -130,7 +143,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void initViews(View view) {
+        cl = (CoordinatorLayout) view.findViewById(R.id.cl);
         ctl = (CollapsingToolbarLayout) view.findViewById(R.id.ctl);
+        tool_bar = (Toolbar) view.findViewById(R.id.tool_bar);
 //        ctl.setExpandedTitleColor(Color.parseColor("#00ffffff"));
 //        ctl.setCollapsedTitleTextColor(Color.parseColor("#ffffff"));
         app_bar = (AppBarLayout) view.findViewById(R.id.app_bar);
@@ -141,17 +156,21 @@ public class HomeFragment extends Fragment {
                     if (state != CollapsingToolbarLayoutState.EXPANDED) {
                         state = CollapsingToolbarLayoutState.EXPANDED;
                         ctl.setTitle("");
+                        banner.setEnabled(true);
                     }
                 } else if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {
                     if (state != CollapsingToolbarLayoutState.COLLAPSED) {
                         ctl.setTitle("首页");
+                        ctl.setCollapsedTitleGravity(Gravity.CENTER);
                         ctl.setCollapsedTitleTextColor(Color.WHITE);
                         state = CollapsingToolbarLayoutState.COLLAPSED;
+                        banner.setEnabled(false);
                     }
                 } else {
                     if (state != CollapsingToolbarLayoutState.INTERNEDIATE) {
                         ctl.setTitle("");
                         state = CollapsingToolbarLayoutState.INTERNEDIATE;
+                        banner.setEnabled(true);
                     }
                 }
             }
@@ -163,6 +182,17 @@ public class HomeFragment extends Fragment {
         rv.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerAdapter = new HomeRecyclerAdapter(getActivity(), mRecyclerDatas);
         rv.setAdapter(mRecyclerAdapter);
+        mRecyclerAdapter.setOnItemClickListener(new HomeRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(), ShowImageActivity.class);
+                intent.putExtra("image_uri", mRecyclerDatas.get(position).getUrl());
+                ActivityOptionsCompat options =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), mRecyclerAdapter.getImageView(), "iv_img");
+                ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+                Toast.makeText(getActivity(), "Go to " + mRecyclerDatas.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
     
@@ -177,6 +207,20 @@ public class HomeFragment extends Fragment {
                 .setIndicatorUnselectedResId(R.drawable.banner_indicator_yellow_radius)
                 .setImageLoader(new GlideImageLoader())
                 .start();
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void onBannerClick(int position) {
+                Snackbar sb = Snackbar.make(cl, mTitles.get(position), Snackbar.LENGTH_INDEFINITE)
+                        .setAction("Go", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getActivity(), "Go to banner details", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                ((TextView) sb.getView().findViewById(R.id.snackbar_text)).setMaxLines(1);
+                sb.show();
+            }
+        });
     }
     
     @Override

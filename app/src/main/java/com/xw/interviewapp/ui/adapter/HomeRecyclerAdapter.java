@@ -1,6 +1,9 @@
 package com.xw.interviewapp.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,7 @@ import com.xw.interviewapp.R;
 import com.xw.interviewapp.bean.HomeRecyclerBean;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <br/>
@@ -29,6 +33,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     
     private OnItemClickListener mListener;
     
+    private HomeRecyclerHolder mHolder;
+    
     public HomeRecyclerAdapter(Context ctx, List<HomeRecyclerBean> beanList) {
         mContext = ctx;
         mDatas = beanList;
@@ -37,7 +43,8 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     @Override
     public HomeRecyclerHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        return new HomeRecyclerHolder(inflater.inflate(R.layout.item_home, parent, false));
+        mHolder = new HomeRecyclerHolder(inflater.inflate(R.layout.item_home, parent, false));
+        return mHolder;
     }
     
     @Override
@@ -65,7 +72,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     
     public class HomeRecyclerHolder extends RecyclerView.ViewHolder {
         
-        ImageView iv_img;
+        public ImageView iv_img;
         
         TextView tv_name;
     
@@ -73,6 +80,18 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             super(itemView);
             iv_img = (ImageView) itemView.findViewById(R.id.iv_img);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            ActivityCompat.setEnterSharedElementCallback((Activity) mContext, new SharedElementCallback() {
+                @Override
+                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                    sharedElements.put("iv_img", iv_img);
+                }
+            });
+//            ActivityCompat.setEnterSharedElementCallback(new SharedElementCallback() {
+//                @Override
+//                public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+//                    sharedElements.put("iv_img", iv_img);
+//                }
+//            });
 //            int width = ((Activity) iv_img.getContext()).getWindowManager().getDefaultDisplay().getWidth();
 //            ViewGroup.LayoutParams params = iv_img.getLayoutParams();
 //            //设置图片的相对于屏幕的宽高比
@@ -88,6 +107,10 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
     
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
+    }
+    
+    public ImageView getImageView() {
+        return mHolder.iv_img;
     }
     
 }
